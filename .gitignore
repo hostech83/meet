@@ -21,3 +21,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+serverless config credentials --provider aws --key AKIA6G75D4EYJIXT3SFV --secret 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
