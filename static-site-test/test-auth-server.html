@@ -39,6 +39,10 @@
       </label>
       <button id="getToken">Get Token</button>
       <p id="accessToken"></p>
+
+      <h4><b>Step 3:</b> Get the calendar events using your access token</h4>
+      <button id="getEvents">Get Events</button>
+      <p id="events"></p>
     </main>
     <script type="text/javascript">
       // --------------------- STEP 1
@@ -47,8 +51,7 @@
       const resultLink = document.getElementById("authURL");
       // Replace this with your own endpoint
       const getAuthURL =
-        " https://ae4a18ty7b.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url";
-
+        "https://ae4a18ty7b.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url";
       getAuthUrlButton.onclick = function () {
         fetch(getAuthURL)
           .then(function (response) {
@@ -70,8 +73,7 @@
       const getAccessToken = document.getElementById("getToken");
       const accessTokenElement = document.getElementById("accessToken");
       const getToken =
-        " https://ae4a18ty7b.execute-api.us-east-1.amazonaws.com/dev/api/token";
-
+        "https://ae4a18ty7b.execute-api.us-east-1.amazonaws.com/dev/api/token";
       getAccessToken.onclick = function () {
         let code = codeValue.value;
 
@@ -89,6 +91,27 @@
           });
       };
       // --------------------- END OF STEP 2
+
+      // --------STEP 3---------
+
+      const getEvents = document.getElementById("getEvents");
+      const events = document.getElementById("events");
+      const getCalendarEvents =
+        "  https://ae4a18ty7b.execute-api.us-east-1.amazonaws.com/dev/api/get-events";
+
+      getEvents.onclick = function () {
+        const { access_token } = JSON.parse(accessTokenElement.innerText);
+        const eventRequest = getCalendarEvents + "/" + access_token;
+
+        fetch(eventRequest)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (json) {
+            events.innerText = JSON.stringify(json, null, 2);
+          });
+      };
+      // End STEP 3
     </script>
   </body>
 </html>
