@@ -1,14 +1,20 @@
 // src/App.js
-
-import CitySearch from "./components/CitySearch";
+import React, { useState } from "react";
 import EventList from "./components/EventList";
-import "./App.css";
+import CitySearch from "./components/CitySearch";
+import NumberOfEvents from "./components/NumberOfEvents";
 
 const App = () => {
+  const [events] = useState([]);
+  const handleNumberChange = (num) => {
+    // Update events based on new number
+  };
+
   return (
-    <div className="App">
+    <div>
       <CitySearch />
-      <EventList />
+      <NumberOfEvents id="number-of-events" onChange={handleNumberChange} />
+      <EventList events={events} />
     </div>
   );
 };
