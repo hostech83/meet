@@ -2,7 +2,8 @@
   "name": "meet",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/hostech83/meet.git",
+  "homepage": "hostech83/meet",
+  "repository": "https://github.com/hostech83/meet",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
