@@ -44,6 +44,7 @@ describe("<App /> component", () => {
       // the strange part is when running the application, the app component is rendered 3 times
       // but in the testing it only renders 2 times
       // in the app (in the browser), the third time is when the data is pass down to the component
+      // finally rerended the third time and the data pass down to the component
       const berlinSuggestionItem =
         within(CitySearchDOM).queryByText("Berlin, Germany");
 
