@@ -4,7 +4,6 @@
 import { useState, useEffect } from "react";
 
 const CitySearch = ({ allLocations, setCurrentCity }) => {
-  // console.log({ allLocations });
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);

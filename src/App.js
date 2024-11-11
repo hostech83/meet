@@ -22,10 +22,6 @@ const App = () => {
     fetchData();
   }, [currentCity, currentNOE]);
 
-  useEffect(() => {
-    console.log("Updated allLocations:", allLocations);
-  }, [allLocations]);
-
   const fetchData = async () => {
     const allEvents = (await getEvents()) || [];
     const filteredEvents =

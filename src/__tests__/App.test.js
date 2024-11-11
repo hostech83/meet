@@ -48,8 +48,6 @@ describe("<App /> component", () => {
       const berlinSuggestionItem =
         within(CitySearchDOM).queryByText("Berlin, Germany");
 
-      console.log(berlinSuggestionItem);
-      console.log(AppComponent.debug(CitySearchDOM));
       await userEvent.click(berlinSuggestionItem);
 
       const EventListDOM = AppDOM.querySelector("#event-list");
