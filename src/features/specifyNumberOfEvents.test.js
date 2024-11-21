@@ -29,18 +29,14 @@ defineFeature(feature, (test) => {
       AppDOM = AppComponent.container.firstChild;
       const EventListDOM = AppDOM.querySelector("#event-list");
       NumberOfEventsComponent = render(
-        <NumberOfEvents
-          setCurrentNOE={() => {}}
-          setErrorAlert={() => {}}
-          onChange={() => {}}
-        />,
+        <NumberOfEvents setError={() => {}} onChange={() => {}} />,
         { container: EventListDOM }
       );
       expect(NumberOfEventsComponent).toBeTruthy();
     });
 
     then(/^\("(.*)"\) events should be displayed by default$/, () => {
-      expect(NumberOfEventsComponent.getByRole("textbox")).toHaveValue(32);
+      expect(NumberOfEventsComponent.getByRole("textbox")).toHaveValue("32");
     });
   });
 
@@ -59,11 +55,7 @@ defineFeature(feature, (test) => {
       async () => {
         const EventListDOM = AppComponent.querySelector("#event-list");
         NumberOfEventsComponent = render(
-          <NumberOfEvents
-            setCurrentNOE={() => {}}
-            setErrorAlert={() => {}}
-            onChange={() => {}}
-          />,
+          <NumberOfEvents setError={() => {}} onChange={() => {}} />,
           { container: EventListDOM }
         );
         const user = userEvent.setup();
@@ -82,7 +74,7 @@ defineFeature(feature, (test) => {
     );
 
     then(/^the event list should display "(.*)" events$/, async () => {
-      expect(NumberOfEventsComponent.getByRole("textbox")).toHaveValue(10);
+      expect(NumberOfEventsComponent.getByRole("textbox")).toHaveValue("10");
     });
   });
 });

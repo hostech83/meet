@@ -6,7 +6,7 @@ import EventList from "./components/EventList";
 import CitySearch from "./components/CitySearch";
 import NumberOfEvents from "./components/NumberOfEvents";
 import { extractLocations, getEvents } from "./api";
-import { InfoAlert } from "./components/Alert";
+import { ErrorAlert, InfoAlert } from "./components/Alert";
 import "./App.css";
 
 const App = () => {
@@ -15,6 +15,7 @@ const App = () => {
   const [allLocations, setAllLocations] = useState([]);
   const [currentCity, setCurrentCity] = useState("See all cities");
   const [infoAlert, setInfoAlert] = useState("");
+  const [error, setError] = useState("");
   const handleNumberChange = (num) => {
     setCurrentNOE(num);
   };
@@ -41,6 +42,7 @@ const App = () => {
     <div className="App">
       <div className="alerts-container">
         {infoAlert.length ? <InfoAlert text={infoAlert} /> : null}
+        {error.length ? <ErrorAlert text={error} /> : null}
       </div>
       <CitySearch
         allLocations={allLocations}
@@ -51,7 +53,7 @@ const App = () => {
         id="number-of-events"
         onChange={handleNumberChange}
         currentNOE={currentNOE}
-        setCurrentNOE={setCurrentNOE}
+        setError={setError}
       />
       <EventList events={events} />
     </div>

@@ -2,24 +2,36 @@
 // src/components/NumberOfEvents.js
 import React, { useState } from "react";
 
-const NumberOfEvents = ({ onChange }) => {
-  const [eventCount, setEventCount] = useState(32);
+const NumberOfEvents = ({ onChange, currentNOE = 32, setError }) => {
+  const [numberOfEvents, setNumberOfEvents] = useState(currentNOE);
+  const handleInputChanged = (e) => {
+    const value = Number(e.target.value); // Ensure value is a number
+    let errorText = "";
 
-  const handleInputChange = (e) => {
-    const newCount = parseInt(e.target.value, 10);
-    setEventCount(newCount);
-    onChange(newCount); // Callback function to inform the parent component
+    if (isNaN(value) || value <= 0) {
+      errorText = "Please enter a valid number greater than 0.";
+      const newValue = parseInt(e.target.value) || "";
+      setNumberOfEvents(newValue);
+      if (onChange) onChange(parseInt(e.target.value) || "");
+    } else {
+      setNumberOfEvents(value);
+      if (onChange) onChange(value); // Notify parent of the valid value
+    }
+
+    setError(errorText); // Update error state
   };
 
   return (
     <div id="number-of-events">
       <label htmlFor="event-count-input">Number of Events:</label>
       <input
-        type="number"
+        id="event-count-input"
+        type="text"
         role="textbox"
         data-testid="event-count-input"
-        value={eventCount}
-        onChange={handleInputChange}
+        value={numberOfEvents}
+        onChange={handleInputChanged}
+        aria-describedby="event-count-error"
       />
     </div>
   );
