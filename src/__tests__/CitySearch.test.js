@@ -42,7 +42,11 @@ describe("<CitySearch /> component", () => {
     const allEvents = await getEvents();
     const allLocations = extractLocations(allEvents);
     CitySearchComponent.rerender(
-      <CitySearch allLocations={allLocations} setInfoAlert={() => {}} />
+      <CitySearch
+        allLocations={allLocations}
+        setInfoAlert={() => {}}
+        setWarningAlert={() => {}}
+      />
     );
 
     // user types "Berlin" in city textbox
@@ -71,7 +75,11 @@ describe("<CitySearch /> component", () => {
     const allEvents = await getEvents();
     const allLocations = extractLocations(allEvents);
     CitySearchComponent.rerender(
-      <CitySearch allLocations={allLocations} setInfoAlert={() => {}} />
+      <CitySearch
+        allLocations={allLocations}
+        setInfoAlert={() => {}}
+        setWarningAlert={() => {}}
+      />
     );
 
     // user types "Berlin" in city textbox
@@ -104,6 +112,7 @@ describe("<CitySearch /> component", () => {
         allLocations={allLocations}
         setInfoAlert={jest.fn()}
         setCurrentCity={jest.fn()}
+        setWarningAlert={() => {}}
       />
     );
 

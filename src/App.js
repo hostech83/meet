@@ -6,7 +6,7 @@ import EventList from "./components/EventList";
 import CitySearch from "./components/CitySearch";
 import NumberOfEvents from "./components/NumberOfEvents";
 import { extractLocations, getEvents } from "./api";
-import { ErrorAlert, InfoAlert } from "./components/Alert";
+import { ErrorAlert, InfoAlert, WarningAlert } from "./components/Alert";
 import "./App.css";
 
 const App = () => {
@@ -16,33 +16,52 @@ const App = () => {
   const [currentCity, setCurrentCity] = useState("See all cities");
   const [infoAlert, setInfoAlert] = useState("");
   const [error, setError] = useState("");
+  const [warningAlertMessage, setWarningAlertMessage] = useState(""); // Renamed state
+
   const handleNumberChange = (num) => {
     setCurrentNOE(num);
   };
 
+  console.log({ currentNOE });
   useEffect(() => {
+    console.log("fetch events");
+    const fetchData = async () => {
+      try {
+        const allEvents = await getEvents();
+        const filteredEvents =
+          currentCity === "See all cities"
+            ? allEvents
+            : allEvents.filter((event) => event.location === currentCity);
+        setEvents(filteredEvents.slice(0, currentNOE));
+
+        const extractedLocations = extractLocations(allEvents);
+        if (
+          extractedLocations.length > 0 &&
+          JSON.stringify(extractedLocations) !== JSON.stringify(allLocations)
+        ) {
+          setAllLocations(extractedLocations);
+        }
+      } catch (error) {
+        setError("Failed to fetch events. Please try again.");
+      }
+    };
+
+    //check if user is online and show warning
+    if (!navigator.onLine) {
+      setWarningAlertMessage("You are offline. Events data may be outdated."); // Updated setter
+    } else {
+      setWarningAlertMessage(""); // Updated setter
+    }
     fetchData();
   }, [currentCity, currentNOE]);
-
-  const fetchData = async () => {
-    const allEvents = (await getEvents()) || [];
-    const filteredEvents =
-      currentCity === "See all cities"
-        ? allEvents
-        : allEvents.filter((event) => event.location === currentCity);
-    setEvents(filteredEvents.slice(0, currentNOE));
-    const extractedLocations = extractLocations(allEvents);
-
-    if (extractedLocations.length > 0 && extractedLocations !== allLocations) {
-      setAllLocations([...extractedLocations]); // Spread to create a new array reference
-    }
-  };
 
   return (
     <div className="App">
       <div className="alerts-container">
-        {infoAlert.length ? <InfoAlert text={infoAlert} /> : null}
-        {error.length ? <ErrorAlert text={error} /> : null}
+        {infoAlert && <InfoAlert text={infoAlert} />}
+        {error && <ErrorAlert text={error} />}
+        {warningAlertMessage && <WarningAlert text={warningAlertMessage} />}
+        {/* Updated variable */}
       </div>
       <CitySearch
         allLocations={allLocations}
