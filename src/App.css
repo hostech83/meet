@@ -1,95 +1,204 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:500);
 .App {
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 2% 5%;
+  background-color: #1b1b1d;
 }
 
 .App * {
   box-sizing: border-box;
 }
 
-ul {
-  padding: 0;
-  list-style: none;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-p {
-  margin: 5px 0;
-}
-
-input[type="text"],
-input[type="number"] {
-  padding: 8px 6px 8px 10px;
-  border-radius: 4px;
-  outline: none;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  line-height: 20px;
-  align-self: center;
-  height: 38px;
-  margin-bottom: 20px;
-}
-
-.city {
-  width: 250px;
-}
-
-#city-search {
+.App-header {
+  background-color: #4e6ba5;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  margin: auto;
-  position: relative;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.suggestions {
-  width: 250px;
-  position: absolute;
-  top: 45px;
-  z-index: 2;
-  align-self: center;
+.event-list-container {
+  width: 100%;
+  max-width: 900px;
+  min-height: 200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.eventListItem {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  border: #282c34 solid 1px;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 5px;
+  background-color: #a6caec;
+}
+
+.event-details {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  padding: 5px;
+  margin: 5px;
+  background-color: #c6dff7;
+  border: #282c34 solid 1px;
+  border-radius: 20px;
+}
+
+.citiesListItem {
+  list-style-type: none;
+  display: block;
+  cursor: pointer;
+}
+
+.eventList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  padding: 5px;
+}
+
+#indexNumber {
+  font-size: 10px;
   margin: 0;
-  font-size: 14px;
-  box-shadow: 10px 10px 16px -12px rgba(0, 0, 0, 0.75);
-}
-
-.suggestions > li {
-  text-align: left;
-  padding: 8px 6px 8px 10px;
-  background-color: #eee;
-  cursor: default;
-}
-
-.suggestions > li:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-.suggestions > li:hover {
-  background-color: #bcdcdb;
-}
-
-.event {
-  padding: 10px 10px 35px;
-  margin-bottom: 10px;
-  text-align: left;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  position: relative;
+  padding: 0;
 }
 
 .details-btn {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  padding: 5px 8px;
-  border-radius: 4px;
-  outline: none;
+  width: 125px;
+  margin: 5px auto;
+}
+
+.buttonClear {
+  border: none;
+  border-radius: 5px;
+  padding-right: 15px;
   cursor: pointer;
 }
-.alerts-container {
-  position: fixed;
-  top: 0px;
-  left: 20px;
+
+.buttonReset {
+  border: none;
+  border-radius: 5px;
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.toggleBtn {
   width: 250px;
-  z-index: 1000;
+  margin: 10px auto;
+  background-color: rgb(253, 179, 139);
+  color: black;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+.city {
+  padding: 5px;
+}
+
+.labelNOE {
+  padding-right: 5px;
+  color: white;
+}
+
+.labelCity,
+.noEventsText {
+  color: white;
+}
+
+.bordered-tooltip .tooltip-inner {
+  border: 2px solid cornflowerblue;
+}
+.bordered-tooltip .tooltip-arrow::before {
+  border-top-color: cornflowerblue;
+}
+
+.custom-border-radius,
+.custom-border-radius:first-child,
+.custom-border-radius:last-child {
+  border-radius: 20px;
+}
+
+.charts-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.x-axis-label {
+  font-size: 12px;
+  font-weight: 100;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    "Noto Sans";
+  font-kerning: none;
+}
+
+.pie-label {
+  font-size: 16px;
+  font-weight: 100;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    "Noto Sans";
+  font-kerning: none;
+}
+.chartGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  padding: 5px;
+  margin: -10px 30px 10px 30px;
+  background-color: #c6dff7;
+  border: #282c34 solid 1px;
+  border-radius: 20px;
+}
+
+@media (max-width: 320px) {
+  .x-axis-label {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .scatterChart {
+    background-color: "#143B5F";
+  }
+}
+
+@media (color-scheme: dark) {
+  .scatterChart {
+    background-color: "#143B5F";
+  }
 }

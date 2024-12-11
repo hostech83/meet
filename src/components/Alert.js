@@ -1,8 +1,11 @@
 // src/components/Alert.js
 
-import { Component } from "react";
+import React, { Component } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 class Alert extends Component {
+  static contextType = ThemeContext;
+
   constructor(props) {
     super(props);
     this.color = null;
@@ -10,16 +13,17 @@ class Alert extends Component {
   }
 
   getStyle = () => {
+    const { isDarkMode } = this.context;
     return {
-      color: this.color,
-      backgroundColor: this.bgColor,
-      borderWidth: "2px",
+      color: isDarkMode ? this.darkModeColor : this.color,
+      backgroundColor: isDarkMode ? this.darkModeBgColor : this.bgColor,
+      borderWidth: "4px",
       borderStyle: "solid",
-      fontWeight: "bolder",
+      fontWeight: "bold",
       borderRadius: "7px",
-      borderColor: this.color,
+      borderColor: isDarkMode ? this.darkModeColor : this.color,
       textAlign: "center",
-      fontSize: "12px",
+      fontSize: "18px",
       margin: "10px 0",
       padding: "10px",
     };
@@ -39,22 +43,29 @@ class InfoAlert extends Alert {
     super(props);
     this.color = "rgb(0, 0, 255)"; // blue
     this.bgColor = "rgb(220, 220, 255)"; // light blue
+    this.darkModeColor = "white"; // light blue
+    this.darkModeBgColor = "rgb(0, 77, 150)"; // midnight blue
   }
 }
 
 class ErrorAlert extends Alert {
   constructor(props) {
     super(props);
-    this.color = "rgb(255, 0, 0)";
-    this.bgColor = "rgb(255, 220, 220)";
+    this.color = "rgb(255, 0, 0)"; // red
+    this.bgColor = "rgb(255, 200, 200)"; // light red
+    this.darkModeColor = "white";
+    this.darkModeBgColor = "rgb(191, 0, 0)"; // dark red
   }
 }
 
 class WarningAlert extends Alert {
   constructor(props) {
     super(props);
-    this.color = "rgb(150, 174, 55)";
-    this.bgColor = "rgb(255, 255, 220)";
+    this.color = "black";
+    this.bgColor = "#FFE696";
+    this.darkModeColor = "black";
+    this.darkModeBgColor = "#FFE696";
   }
 }
+
 export { InfoAlert, ErrorAlert, WarningAlert };

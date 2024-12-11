@@ -1,33 +1,41 @@
-/* eslint-disable testing-library/no-node-access */
+// src/components/filterEventsByCity.test.js
+
 import { loadFeature, defineFeature } from "jest-cucumber";
-import { render, within, waitFor } from "@testing-library/react";
-import App from "../App";
-import mockData from "../mock-data";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import App from "../App";
+import { getEvents } from "../api";
+import mockData from "../mock-data";
+
+jest.mock("../api", () => ({
+  getEvents: jest.fn(),
+  extractLocations: jest.requireActual("../api").extractLocations,
+}));
 
 const feature = loadFeature("./src/features/filterEventsByCity.feature");
 
 defineFeature(feature, (test) => {
+  beforeEach(() => {
+    getEvents.mockResolvedValue(mockData);
+  });
   test("When user hasn’t searched for a city, show upcoming events from all cities.", ({
     given,
     when,
     then,
   }) => {
-    let AppComponent;
-
-    given("user hasn’t searched for any city", () => {});
-
-    when("the user opens the app", () => {
-      AppComponent = render(<App />);
+    given("user hasn’t searched for any city", () => {
+      // No action needed here, this is the initial state
     });
 
-    then("the user should see the list of all upcoming events.", async () => {
-      const AppDOM = AppComponent.container.firstChild;
-      const EventListDOM = AppDOM.querySelector("#event-list");
+    when("the user opens the app", () => {
+      render(<App />);
+    });
 
+    then("the user should see the list of all upcoming events", async () => {
       await waitFor(() => {
-        const EventListItems = within(EventListDOM).queryAllByRole("listitem");
-        expect(EventListItems.length).toBe(32);
+        const eventList = screen.getByTestId("eventlist");
+        const eventListItems = within(eventList).getAllByRole("listitem");
+        expect(eventListItems).toHaveLength(Math.min(32, mockData.length));
       });
     });
   });
@@ -37,27 +45,22 @@ defineFeature(feature, (test) => {
     when,
     then,
   }) => {
-    let AppComponent;
-
     given("the main page is open", () => {
-      AppComponent = render(<App />);
+      render(<App />);
     });
 
-    let CitySearchDOM;
     when("user starts typing in the city textbox", async () => {
-      const user = userEvent.setup();
-      const AppDOM = AppComponent.container.firstChild;
-      CitySearchDOM = AppDOM.querySelector("#city-search");
-      const citySearchInput = within(CitySearchDOM).queryByRole("textbox");
-      await user.type(citySearchInput, "Berlin");
+      const cityTextBox = screen.getByRole("textbox", { name: /city search/i });
+      await userEvent.click(cityTextBox);
+      await userEvent.type(cityTextBox, "Berlin");
     });
 
     then(
       "the user should recieve a list of cities (suggestions) that match what they’ve typed",
       async () => {
-        const suggestionListItems =
-          within(CitySearchDOM).queryAllByRole("listitem");
-        expect(suggestionListItems).toHaveLength(2);
+        const suggestionList = screen.getByTestId("suggestions-list");
+        const suggestionItems = within(suggestionList).getAllByRole("listitem");
+        expect(suggestionItems).toHaveLength(2);
       }
     );
   });
@@ -68,54 +71,48 @@ defineFeature(feature, (test) => {
     when,
     then,
   }) => {
-    let AppComponent;
-    let AppDOM;
-    let CitySearchDOM;
-    let citySearchInput;
-
+    let cityTextBox;
     given("user was typing “Berlin” in the city textbox", async () => {
-      AppComponent = render(<App />);
-      const user = userEvent.setup();
-      AppDOM = AppComponent.container.firstChild;
-      CitySearchDOM = AppDOM.querySelector("#city-search");
-      citySearchInput = within(CitySearchDOM).queryByRole("textbox");
-      await user.type(citySearchInput, "Berlin");
+      render(<App />);
+      cityTextBox = screen.getByRole("textbox", { name: /city search/i });
+      await userEvent.click(cityTextBox);
+      await userEvent.type(cityTextBox, "Berlin");
     });
 
-    let suggestionListItems;
-
-    and("the list of suggested cities is showing", () => {
-      suggestionListItems = within(CitySearchDOM).queryAllByRole("listitem");
-      expect(suggestionListItems).toHaveLength(2);
+    let suggestionList;
+    let suggestionItems;
+    and("the list of suggested cities is showing", async () => {
+      suggestionList = await screen.findByTestId("suggestions-list");
+      suggestionItems = within(suggestionList).getAllByRole("listitem");
+      expect(suggestionItems).toHaveLength(2);
     });
 
     when(
       "the user selects a city (e.g., “Berlin, Germany”) from the list",
       async () => {
-        const user = userEvent.setup();
-        await user.click(suggestionListItems[0]);
+        await userEvent.click(suggestionItems[0]);
       }
     );
 
     then(
       "their city should be changed to that city (i.e., “Berlin, Germany”)",
-      () => {
-        expect(citySearchInput.value).toBe("Berlin, Germany");
+      async () => {
+        await expect(cityTextBox.value).toBe("Berlin, Germany");
       }
     );
 
     and(
       "the user should receive a list of upcoming events in that city",
       async () => {
-        const EventListDOM = AppDOM.querySelector("#event-list");
-        const EventListItems = within(EventListDOM).queryAllByRole("listitem");
-
-        // filtering the list of all events down to events located in Germany
-        // citySearchInput.value should have the value "Berlin, Germany" at this point
-        const berlinEvents = mockData.filter(
-          (event) => event.location === citySearchInput.value
-        );
-        expect(EventListItems).toHaveLength(berlinEvents.length);
+        await waitFor(() => {
+          const eventList = screen.getByTestId("eventlist");
+          const allRenderedEventItems =
+            within(eventList).getAllByRole("listitem");
+          const berlinEvents = mockData.filter(
+            (event) => event.location === cityTextBox.value
+          );
+          expect(allRenderedEventItems).toHaveLength(berlinEvents.length);
+        });
       }
     );
   });

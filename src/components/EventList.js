@@ -1,15 +1,58 @@
 // src/components/EventList.js
+import { useState, useEffect } from "react";
 import Event from "./Event";
+import { ListGroup, Button, Stack } from "react-bootstrap";
+import EventSkeleton from "./EventSkeleton";
 
 const EventList = ({ events }) => {
-  // TODO: add the NumberOfEvents here with the onChange function
-  // to change how many events we see in the below events.map
+  const [isLoading, setIsLoading] = useState(true);
+  const [forceCollapse, setForceCollapse] = useState(false);
+
+  const handleCollapseAll = () => {
+    setForceCollapse(true);
+    // Reset forceCollapse after a short delay to allow events to collapse
+    setTimeout(() => setForceCollapse(false), 50);
+  };
+  useEffect(() => {
+    if (events.length > 0) {
+      setIsLoading(false);
+    }
+  }, [events]);
+
   return (
-    <ul id="event-list">
-      {events
-        ? events.map((event) => <Event key={event.id} event={event} />)
-        : null}
-    </ul>
+    <Stack className="event-list-container" gap={3}>
+      <Button
+        variant="primary"
+        className="toggleBtn"
+        data-testid="btn-Collapse"
+        onClick={handleCollapseAll}
+        alt-text="Collapse all event details"
+      >
+        Hide All Event Details
+      </Button>
+      <ListGroup
+        as="ul"
+        id="event-list"
+        data-testid="eventlist"
+        aria-label="event list"
+        className="eventList"
+      >
+        {isLoading
+          ? Array(5)
+              .fill()
+              .map((_, index) => <EventSkeleton key={index} />)
+          : events.map((event, index) => (
+              <Event
+                key={event.id}
+                event={event}
+                forceCollapse={forceCollapse}
+                index={index}
+              />
+            ))}
+      </ListGroup>
+      <br />
+      <br />
+    </Stack>
   );
 };
 
