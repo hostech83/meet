@@ -1,19 +1,24 @@
-Meetup Events App
+# Meetup Events App
+
+# Description
+
 Welcome to the Meetup Events App, a serverless progressive web app (PWA) built with Create-React-App and Amazon Web Services (AWS). This app allows users to discover and filter events happening in cities near them. Enjoy the convenience of accessing event data from Google Calendar through the power of serverless technology.
 
-Features & Highlights
+# Features & Highlights
+
 Serverless Architecture:
 This app leverages serverless functions, utilizing AWS Lambda to communicate with Google Calendar API. Every time the user triggers an action that requires API access (such as filtering events), a serverless function is executed to fetch the required data.
 
-Responsive & Progressive:
+# Responsive & Progressive:
+
 As a PWA, the app provides seamless performance, even when offline, making sure that you can always view previously accessed events regardless of your connection status.
 
 Core Features and Test Scenarios
 We follow Gherkin’s "Given-When-Then" syntax to describe user stories and scenarios for testing each feature.
 
-Feature 1: Filter Events By City
-User Story:
-As a user, I want to filter events by city so I can see events happening near me.
+- Feature 1: Filter Events By City
+  User Story:
+  As a user, I want to filter events by city so I can see events happening near me.
 
 Scenario 1: Show upcoming events from all cities when no city is searched.
 GIVEN the user hasn’t searched for a city,
@@ -30,9 +35,9 @@ GIVEN the user has typed a city and suggestions are showing,
 WHEN the user selects a city from the list,
 THEN they should see a list of events happening in that city.
 
-Feature 2: Show/Hide Event Details
-User Story:
-As a user, I want to show or hide event details to learn more about specific events.
+- Feature 2: Show/Hide Event Details
+  User Story:
+  As a user, I want to show or hide event details to learn more about specific events.
 
 Scenario 1: Event details are collapsed by default.
 GIVEN the user hasn't expanded any event details,
@@ -49,9 +54,9 @@ GIVEN the user has expanded event details,
 WHEN they choose to hide the details,
 THEN the information should collapse back.
 
-Feature 3: Specify Number of Events
-User Story:
-As a user, I want to control how many events are displayed so I can limit or expand my viewing options.
+- Feature 3: Specify Number of Events
+  User Story:
+  As a user, I want to control how many events are displayed so I can limit or expand my viewing options.
 
 Scenario 1: Default to showing 32 events when no number is specified.
 GIVEN the user hasn’t specified how many events to show,
@@ -77,7 +82,8 @@ GIVEN the user is offline,
 WHEN they try to change the city or number of events,
 THEN an error message should be displayed.
 
-Feature 5: Add an App Shortcut
+# Feature 5: Add an App Shortcut
+
 User Story:
 As a user, I want to add the Meet app to my device's home screen for quicker access.
 
@@ -93,7 +99,8 @@ Styling: SCSS for responsive design
 Get Started
 To run this app locally:
 
-Clone the repository.
+# Clone the repository.
+
 Install dependencies:
 bash
 Copy code
@@ -108,3 +115,7 @@ bash
 Copy code
 npm run build
 With this serverless app, you’ll be able to easily explore, filter, and track events happening in cities around you. Enjoy!
+
+# Author
+
+Houssni Msehel
