@@ -6,7 +6,7 @@ import { getEvents, extractLocations } from "./api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Navbar, Container } from "react-bootstrap";
-import BrandImage from "./img/LightLogo.png";
+import BrandImage from "./img/Logomeet.png";
 import Spinner from "./components/Spinner";
 import { InfoAlert, ErrorAlert, WarningAlert } from "./components/Alert";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -79,8 +79,8 @@ const App = () => {
               <img
                 id="HeaderLogoImage"
                 src={BrandImage}
-                width="350"
-                height="50"
+                width="200"
+                height="20"
                 alt="Logo for MeetUP"
                 className="page-header__item img-fluid"
               />
